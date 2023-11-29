@@ -10,6 +10,7 @@ import TimerScreen from "./Screens/TimerScreen";
 import ProfileScreen from "./Screens/ProfileScreen";
 import ActivityScreen from "./Screens/ActivityScreen";
 import LoginScreen from "./Screens/LoginScreen";
+import ChangePasswordScreen from "./Screens/ChangePasswordScreen";
 import Header from "./Component/Header";
 
 const Tab = createBottomTabNavigator();
@@ -17,8 +18,9 @@ const Stack = createStackNavigator();
 
 const MainTabs = ({ route }) => {
   console.log("Route params in MainTabs:", route.params);
-  const { displayName } = route.params;
+  const { displayName, email } = route.params || {};
   console.log("Maintabs name", displayName);
+  console.log("Maintabs email", email);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -43,6 +45,7 @@ const MainTabs = ({ route }) => {
       <Tab.Screen
         name="Workout"
         component={WorkoutScreen}
+        initialParams={{ displayName: displayName }}
         options={{
           tabBarIcon: () => (
             <Ionicons name="ios-fitness" size={24} color="#bb86fc" />
@@ -61,6 +64,7 @@ const MainTabs = ({ route }) => {
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
+        initialParams={{ displayName: displayName, email: email }}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: () => (
@@ -76,6 +80,7 @@ export default function App() {
   return (
     <NavigationContainer>
       {/* <Header /> */}
+
       <Stack.Navigator>
         <Stack.Screen
           name="Login"
@@ -90,6 +95,11 @@ export default function App() {
         <Stack.Screen
           name="Activity"
           component={ActivityScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          component={ChangePasswordScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, EmailAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBBmlE7g0ZOs03sFCa7LE7SvMuQJHXVP-8",
@@ -12,3 +12,4 @@ const firebaseConfig = {
 
 export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
+export const FIREBASE_EMAIL_AUTH_PROVIDER = EmailAuthProvider;

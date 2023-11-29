@@ -5,12 +5,13 @@ import { gymData } from "./Data";
 import { ScrollView } from "react-native";
 import Header from "../Component/Header";
 
-const WorkoutScreen = () => {
+const WorkoutScreen = ({ route }) => {
+  const { displayName } = route.params;
   return (
     <ScrollView>
       <Header />
       <View style={styles.workoutScreen}>
-        <Text style={styles.welcomeText}>Hey John!</Text>
+        <Text style={styles.welcomeText}>Hey {displayName}!</Text>
         <Text style={styles.title}>
           Choose your <Text style={styles.highlight}>activity</Text>
         </Text>

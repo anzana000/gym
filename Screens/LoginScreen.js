@@ -14,6 +14,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import ToastManager, { Toast } from "toastify-react-native";
 
 const LoginScreen = ({ navigation }) => {
   const [uname, setUname] = useState("");
@@ -30,12 +31,15 @@ const LoginScreen = ({ navigation }) => {
         // navigation.navigate("MainTabs", { displayName: email });
         console.log("User name okkk", uname);
         const { displayName, email, uid } = user;
-        navigation.navigate("MainTabs", { displayName: email });
+        navigation.navigate("MainTabs", {
+          displayName: displayName,
+          email: email,
+        });
         console.log("User data", { displayName, email, uid });
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [uname]);
 
   const handleSignUp = async () => {
     if (
@@ -44,13 +48,13 @@ const LoginScreen = ({ navigation }) => {
       password.length == 0 ||
       cpassword.length == 0
     ) {
-      alert("Fields can't be empty");
+      Toast.error("Fields cannot be empty", "top");
     } else if (uname.length > 8) {
-      alert("Username should be less than 8 characters");
+      Toast.error("Username should be less than 8 characters", "top");
     } else if (password.length < 8 || cpassword < 8) {
-      alert("Password should be 8 characters long");
+      Toast.error("Password should be 8 characters long", "top");
     } else if (password !== cpassword) {
-      alert("Passwords donot match");
+      Toast.error("Passwords donot match", "top");
     } else {
       try {
         const response = await createUserWithEmailAndPassword(
@@ -91,6 +95,9 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const resetPassword = (Email) => {
+    if (Email.length == 0) {
+      Toast.error("Please provide your email", "top");
+    }
     console.log("reset email sent to " + Email);
     sendPasswordResetEmail(auth, Email, null)
       .then(() => {
@@ -107,7 +114,7 @@ const LoginScreen = ({ navigation }) => {
         source={require("../assets/gymlogo.png")}
         style={styles.loginImage}
       />
-
+      <ToastManager style={styles.toastManager} />
       {loginstatus === true ? (
         <View>
           <TextInput
@@ -282,5 +289,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     fontSize: 13,
+  },
+  toastManager: {
+    width: 370,
+    height: 80,
+    position: "absolute",
+    top: 10,
   },
 });
